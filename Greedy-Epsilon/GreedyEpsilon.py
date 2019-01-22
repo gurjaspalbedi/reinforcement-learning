@@ -65,12 +65,6 @@ class GreedyEpsilon:
             The index of the machine
         """
         return np.argmax([machine.mean_reward for machine in self.slot_machines])
-    
-    def draw_plot(self, iterations: int, list_of_means : List[List[float]]):
-        for machine_index in range(self.machine_count):
-            x_digits = list(range(iterations))
-            y_digits = [item[machine_index] for item in list_of_means]
-            plt.plot(x_digits, y_digits)
         
     def update_estimated_mean_for_given_machine(self , reward : float, machine_index: int):
         """
@@ -115,7 +109,7 @@ class GreedyEpsilon:
         """
         
         plt.bar(x_labels, machine_counts)
-        plt.show()
+        plt.savefig("BarGraph.jpg")
         print(machine_counts)
         
         
@@ -157,7 +151,6 @@ class GreedyEpsilon:
             selected_machine_count[best_machine_index] +=1
             x_labels = ['Machine'+ str(i+1) for i in range(self.machine_count)]
         self.draw_bar_graph(x_labels, selected_machine_count)
-        self.draw_plot(total_iterations , estimated_means)
     
     
     
