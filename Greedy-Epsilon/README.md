@@ -9,6 +9,9 @@ In this program we assume that we have four slot machines with following mean re
 We take epsilon value of 0.1 that means that we our algorithms explores new options for the 10 % of the time and exploits remaining 90% of the time.
 The Bar graph displaying how many times which machine was selected is as shown below
 
+![Selection of Machines](https://github.com/gurjaspalbedi/reinforcement-learning/blob/master/Greedy-Epsilon/BarGraph.jpg?raw=true)
+
+
 File Details:
 
  - Main.py - File that contains the main function from where we run the algorithm by initializing the machines.
