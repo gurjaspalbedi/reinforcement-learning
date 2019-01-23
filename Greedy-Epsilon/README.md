@@ -20,3 +20,5 @@ File Details:
  - Main.py - File that contains the main function from where we run the algorithm by initializing the machines.
  - SlotMachine.py  - Contains the class that can instantiate Slot Machines
  - GreedyEpsilon.py - Contains the code for the algorithm
+ 
+ Running program: Just run the Main.py python file
