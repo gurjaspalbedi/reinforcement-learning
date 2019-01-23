@@ -50,6 +50,24 @@ class GreedyEpsilon:
         self.machine_count = len(slot_machines)
         # The number of iteration
         self.iteration = 0
+        self.estimated_means_each_iteration = []
+    
+    def estimated_means_after_each_iteration(self):
+        """
+        Stores the estimated means after each iteration
+            
+        Parameters
+        ----------
+        None
+        
+        Returns
+        -------
+        None
+        """
+        means = [slot_machine.estimated_mean for slot_machine in self.slot_machines]
+        print("means after iteration")
+        print(means)
+        self.estimated_means_each_iteration.append(means)
         
     def get_the_best_machine_index(self) -> int:
         """
@@ -64,8 +82,14 @@ class GreedyEpsilon:
         Index : int
             The index of the machine
         """
-        return np.argmax([machine.mean_reward for machine in self.slot_machines])
-        
+        estimated_means = [machine.estimated_mean for machine in self.slot_machines]
+        selected_machine = np.argmax(estimated_means)
+#        print(estimated_means, selected_machine)
+        return selected_machine
+    
+    def draw_plot(self, iterations: int, list_of_means : List):
+            plt.plot(list(range(iterations)) , list_of_means)
+   
     def update_estimated_mean_for_given_machine(self , reward : float, machine_index: int):
         """
         After we get the number from the machine we update our calculate mean and also the number
@@ -84,11 +108,16 @@ class GreedyEpsilon:
         None
         """
 #        increasing the number of iteration
-        self.iteration += 1 
+        machine = self.slot_machines[machine_index]
+        machine.iteration += 1
 #        update our calculated mean
-        sum_uptil_previous_iteration = self.slot_machines[machine_index].estimated_mean * (self.iteration - 1)
+        sum_uptil_previous_iteration = machine.estimated_mean * (machine.iteration - 1)
 #        updating the mean
-        self.slot_machines[machine_index].estimated_mean = (sum_uptil_previous_iteration + reward) / self.iteration
+        estimated_mean = (sum_uptil_previous_iteration + reward) / machine.iteration
+#        print("estimated mean and reward")
+#        print(estimated_mean, reward)
+        self.slot_machines[machine_index].estimated_mean = estimated_mean
+        self.estimated_means_after_each_iteration()
     
     def draw_bar_graph(self,x_labels: List[str], machine_counts: List[int]):
         """
@@ -110,7 +139,6 @@ class GreedyEpsilon:
         
         plt.bar(x_labels, machine_counts)
         plt.savefig("BarGraph.jpg")
-        print(machine_counts)
         
         
         
@@ -130,7 +158,8 @@ class GreedyEpsilon:
         
 #        we use a list to cound the number of times each Machine is selected
         selected_machine_count = np.zeros(self.machine_count)
-        estimated_means = [[0] * self.machine_count] * total_iterations
+        reward_each_iteration = []
+#        estimated_means = [[0] * self.machine_count] * total_iterations
         for iteration in range(total_iterations):
 #            get value from distribution
             p = np.random.random()
@@ -141,18 +170,18 @@ class GreedyEpsilon:
                 best_machine_index = self.get_the_best_machine_index()
             else:
 #                exploration
-                best_machine_index = np.random.choice(3)
-            
+                best_machine_index = np.random.choice(self.machine_count)
 #            get the next reward from the mahchine
             next_reward = self.slot_machines[best_machine_index].pull()
+            reward_each_iteration.append(next_reward)
 #            update the mean reward for the machine
             self.update_estimated_mean_for_given_machine(next_reward , best_machine_index)
-            estimated_means[iteration][best_machine_index] = self.slot_machines[best_machine_index].estimated_mean
             selected_machine_count[best_machine_index] +=1
-            x_labels = ['Machine'+ str(i+1) for i in range(self.machine_count)]
-        self.draw_bar_graph(x_labels, selected_machine_count)
-    
-    
+#            x_labels = ['Machine'+ str(i+1) for i in range(self.machine_count)]
+        final_means = [slot_machine.estimated_mean for slot_machine in self.slot_machines];
+        print(final_means)
+        self.draw_plot(total_iterations , reward_each_iteration)
+#        self.draw_bar_graph(x_labels, selected_machine_count)
     
     
     

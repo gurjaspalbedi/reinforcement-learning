@@ -33,6 +33,7 @@ class SlotMachine:
         """
         self.mean_reward = mean_reward
         self.estimated_mean = 0
+        self.iteration = 0
     
     
     def pull(self):
@@ -44,7 +45,9 @@ class SlotMachine:
         reward: float
             Reward from the machine
         """
-        return np.random.randn() + self.mean_reward
+        reward = np.random.randn() + self.mean_reward
+#        print(reward, self.mean_reward)
+        return reward
     
     
     
