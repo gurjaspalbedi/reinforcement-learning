@@ -11,6 +11,9 @@ The Bar graph displaying how many times which machine was selected is as shown b
 
 ![Selection of Machines](https://github.com/gurjaspalbedi/reinforcement-learning/blob/master/Greedy-Epsilon/BarGraph.jpg?raw=true)
 
+If we give the mean rewards as 1, 10, 20, 30 and plot a graph of iteration vs reward we get the following plot.
+
+![Iterations](https://github.com/gurjaspalbedi/reinforcement-learning/blob/master/Greedy-Epsilon/line_graph.png?raw=true)
 
 File Details:
 
