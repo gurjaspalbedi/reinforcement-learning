@@ -89,6 +89,7 @@ class GreedyEpsilon:
     
     def draw_plot(self, iterations: int, list_of_means : List):
             plt.plot(list(range(iterations)) , list_of_means)
+            plt.savefig("line_graph")
    
     def update_estimated_mean_for_given_machine(self , reward : float, machine_index: int):
         """
