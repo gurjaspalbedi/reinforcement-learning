@@ -7,7 +7,6 @@ In this program we assume that we have four slot machines with following mean re
  3. Machine 3 - Mean reward of 30
  4. Machine 4 - Mean reward of 40
 
-The below shown graph depicts how this is different then Greedy-Epsilon, as this doesn't explores but only exploits. These two graphs show the difference between the two algorithms.
 
 The Bar graph displaying how many times which machine was selected is as shown below
 
@@ -26,4 +25,5 @@ File Details:
  - Main.py - File that contains the main function from where we run the algorithm by initializing the machines.
  - SlotMachine.py  - Contains the class that can instantiate Slot Machines
  - Optimistic.py - Contains the code for the algorithm
+ 
 Running Program: Just run Main.py python file.
