@@ -11,11 +11,11 @@ The below shown graph depicts how this is different then Greedy-Epsilon, as this
 
 Greedy-Epsilon
 
-![Greedy-Epsilon](https://github.com/gurjaspalbedi/reinforcement-learning/blob/master/Greedy-Epsilon/line_graph.png?raw=true)
+![Greedy-Epsilon](https://github.com/gurjaspalbedi/reinforcement-learning/blob/master/Optimistic-Greedy/line_graph.jpg?raw=true)
 
 Optimistic-Greedy
 
-![Optimistic-Greedy](https://github.com/gurjaspalbedi/reinforcement-learning/blob/master/Optimistic-Greedy/line_graph.png?raw=true)
+![Optimistic-Greedy](https://github.com/gurjaspalbedi/reinforcement-learning/blob/master/Optimistic-Greedy/line_graph.jpg?raw=true)
 
 The graph for the cumulative average of awards vs number of iterations
 
