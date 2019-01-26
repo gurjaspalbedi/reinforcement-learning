@@ -8,7 +8,7 @@ import sys
 sys.path.append('../ReinforcementLearning')
 
 from SlotMachine import SlotMachine
-from UppderConfidenceBound import UppderConfidenceBound
+from UpperConfidenceBound import UpperConfidenceBound
 from shared.Graphs import Graphs
 
 """
@@ -21,7 +21,7 @@ s4 = SlotMachine(30)
 slot_machines = [s1, s2, s3, s4]
 number_of_iterations = 1000
 # 10 percent of the time our algorithm will explore and 90% of the time it will exploit
-g = UppderConfidenceBound(slot_machines, Graphs())
+g = UpperConfidenceBound(slot_machines, Graphs())
 
 #we run the algorithm for the 1000 iterations
 g.run(number_of_iterations)
