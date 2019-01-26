@@ -17,6 +17,10 @@ Optimistic-Greedy
 
 ![Optimistic-Greedy](https://github.com/gurjaspalbedi/reinforcement-learning/blob/master/Optimistic-Greedy/line_graph.png?raw=true)
 
+The graph for the cumulative average of awards vs number of iterations
+
+![Cumulative Average](https://github.com/gurjaspalbedi/reinforcement-learning/blob/master/Optimistic-Greedy/cumulative_average.jpg?raw=true)
+
 File Details:
 
  - Main.py - File that contains the main function from where we run the algorithm by initializing the machines.
