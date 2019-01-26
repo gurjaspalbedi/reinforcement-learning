@@ -147,7 +147,7 @@ class Optimistic:
         x_labels = ['Machine'+ str(i+1) for i in range(self.machine_count)]
         self._graphs.draw_plot(total_iterations , reward_each_iteration,  os.path.dirname(__file__))
         self._graphs.draw_bar_graph(x_labels, selected_machine_count,  os.path.dirname(__file__))
-        self._graphs.draw_cumulated_average_graph(np.cumsum(rewards) / (np.arange(total_iterations)+ 1), total_iterations,  os.path.dirname(__file__))
+        self._graphs.draw_cumulative_average_graph(np.cumsum(rewards) / (np.arange(total_iterations)+ 1), total_iterations,  os.path.dirname(__file__))
     
     
     
