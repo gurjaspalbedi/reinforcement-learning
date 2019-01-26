@@ -12,6 +12,7 @@ import numpy as np
 from SlotMachine import SlotMachine
 from typing import List
 import matplotlib.pyplot as plt
+import os
 
 
 class GreedyEpsilon:
@@ -66,8 +67,6 @@ class GreedyEpsilon:
         None
         """
         means = [slot_machine.estimated_mean for slot_machine in self.slot_machines]
-        print("means after iteration")
-        print(means)
         self.estimated_means_each_iteration.append(means)
         
     def get_the_best_machine_index(self) -> int:
@@ -87,10 +86,6 @@ class GreedyEpsilon:
         selected_machine = np.argmax(estimated_means)
 #        print(estimated_means, selected_machine)
         return selected_machine
-    
-    def draw_plot(self, iterations: int, list_of_means : List):
-            plt.plot(list(range(iterations)) , list_of_means)
-            plt.savefig("line_graph")
    
     def update_estimated_mean_for_given_machine(self , reward : float, machine_index: int):
         """
@@ -120,30 +115,7 @@ class GreedyEpsilon:
 #        print(estimated_mean, reward)
         self.slot_machines[machine_index].estimated_mean = estimated_mean
         self.estimated_means_after_each_iteration()
-    
-    def draw_bar_graph(self,x_labels: List[str], machine_counts: List[int]):
-        """
-        Draws the bar graph of how many times each machine was selected
-        
-        Parameters
-        ----------
-        
-        x_labels: List[str]
-            Name of the machines
-        
-        machine_counts: List[int]
-            List containing the number of times each machine was selected
-            
-        Returns
-        -------
-        None
-        """
-        
-        plt.bar(x_labels, machine_counts)
-        plt.savefig("BarGraph.jpg")
-        
-        
-        
+          
     def run(self, total_iterations: int):
         """
         Run Greedy Epsilon for given number of iterations
@@ -181,6 +153,7 @@ class GreedyEpsilon:
             self.update_estimated_mean_for_given_machine(next_reward , best_machine_index)
             selected_machine_count[best_machine_index] +=1
         x_labels = ['Machine'+ str(i+1) for i in range(self.machine_count)]
-        self._graphs.draw_plot(total_iterations , reward_each_iteration)
-        self._graphs.draw_bar_graph(x_labels, selected_machine_count)
-        self._graphs.draw_cumulated_average_graph(np.cumsum(rewards) / (np.arange(total_iterations)+ 1), total_iterations)
+        print(os.path.dirname(__file__))
+        self._graphs.draw_plot(total_iterations , reward_each_iteration , os.path.dirname(__file__))
+        self._graphs.draw_bar_graph(x_labels, selected_machine_count , os.path.dirname(__file__))
+        self._graphs.draw_cumulated_average_graph(np.cumsum(rewards) / (np.arange(total_iterations)+ 1), total_iterations, os.path.dirname(__file__))

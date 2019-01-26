@@ -8,23 +8,23 @@ import matplotlib.pyplot as plt
 class Graphs:
 
         
-    def draw_cumulated_average_graph(self, cum_average: List, iterations: int):
+    def draw_cumulated_average_graph(self, cum_average: List, iterations: int, path: str):
         plt.figure(2)
         plt.plot(np.arange(iterations) + 1, cum_average)
         plt.xlabel('Cumulative Average')
         plt.ylabel('Number of Iterations')
-        plt.savefig('cumulated_average')
+        plt.savefig('{0}/cumulated_average.jpg'.format(path))
         plt.show()
     
-    def draw_plot(self, iterations: int, list_of_means : List):
+    def draw_plot(self, iterations: int, list_of_means : List, path: str):
         plt.figure(1)
         plt.plot(list(range(iterations)) , list_of_means)
         plt.xlabel("Mean reward selected")
         plt.ylabel("Number of iterations")
-        plt.savefig("line_graph")
+        plt.savefig("{0}/line_graph.jpg".format(path))
         plt.show()
 
-    def draw_bar_graph(self,x_labels: List[str], machine_counts: List[int]):
+    def draw_bar_graph(self,x_labels: List[str], machine_counts: List[int], path: str):
         """
         Draws the bar graph of how many times each machine was selected
         
@@ -45,5 +45,5 @@ class Graphs:
         plt.xlabel("Number of Time Machine was selected")
         plt.ylabel("Machine Name")
         plt.bar(x_labels, machine_counts)
-        plt.savefig("BarGraph.jpg")
+        plt.savefig("{0}/bar_graph.jpg".format(path))
         plt.show()
