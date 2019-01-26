@@ -19,7 +19,7 @@ class GreedyEpsilon:
     Defining the has a realtionship with Slot Machine
     """
     
-    def __init__(self, slot_machines : List[SlotMachine], epsilon_exploration_percentage : float):
+    def __init__(self, slot_machines : List[SlotMachine], epsilon_exploration_percentage : float, graphs):
         """
         Initialize Greedy-Epsilon algorithm with list of machines and Epsilon
         which is the perfcentage of time the algorithm should explore various options
@@ -51,6 +51,7 @@ class GreedyEpsilon:
         # The number of iteration
         self.iteration = 0
         self.estimated_means_each_iteration = []
+        self._graphs = graphs
     
     def estimated_means_after_each_iteration(self):
         """
@@ -143,7 +144,7 @@ class GreedyEpsilon:
         
         
         
-    def run_greedy_epsilon(self, total_iterations: int):
+    def run(self, total_iterations: int):
         """
         Run Greedy Epsilon for given number of iterations
         
@@ -160,7 +161,7 @@ class GreedyEpsilon:
 #        we use a list to cound the number of times each Machine is selected
         selected_machine_count = np.zeros(self.machine_count)
         reward_each_iteration = []
-#        estimated_means = [[0] * self.machine_count] * total_iterations
+        rewards = []
         for iteration in range(total_iterations):
 #            get value from distribution
             p = np.random.random()
@@ -174,41 +175,12 @@ class GreedyEpsilon:
                 best_machine_index = np.random.choice(self.machine_count)
 #            get the next reward from the mahchine
             next_reward = self.slot_machines[best_machine_index].pull()
+            rewards.append(next_reward)
             reward_each_iteration.append(next_reward)
 #            update the mean reward for the machine
             self.update_estimated_mean_for_given_machine(next_reward , best_machine_index)
             selected_machine_count[best_machine_index] +=1
-#            x_labels = ['Machine'+ str(i+1) for i in range(self.machine_count)]
-        final_means = [slot_machine.estimated_mean for slot_machine in self.slot_machines];
-        print(final_means)
-        self.draw_plot(total_iterations , reward_each_iteration)
-#        self.draw_bar_graph(x_labels, selected_machine_count)
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-                
-            
-            
-            
-    
-    
+        x_labels = ['Machine'+ str(i+1) for i in range(self.machine_count)]
+        self._graphs.draw_plot(total_iterations , reward_each_iteration)
+        self._graphs.draw_bar_graph(x_labels, selected_machine_count)
+        self._graphs.draw_cumulated_average_graph(np.cumsum(rewards) / (np.arange(total_iterations)+ 1), total_iterations)
