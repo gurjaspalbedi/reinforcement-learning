@@ -13,7 +13,7 @@ class Graphs:
         plt.plot(np.arange(iterations) + 1, cum_average)
         plt.xlabel('Cumulative Average')
         plt.ylabel('Number of Iterations')
-        plt.savefig('{0}/cumulated_average.jpg'.format(path))
+        plt.savefig('{0}/cumulative_average.jpg'.format(path))
         plt.show()
     
     def draw_plot(self, iterations: int, list_of_means : List, path: str):
