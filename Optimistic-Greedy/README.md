@@ -9,13 +9,13 @@ In this program we assume that we have four slot machines with following mean re
 
 The below shown graph depicts how this is different then Greedy-Epsilon, as this doesn't explores but only exploits. These two graphs show the difference between the two algorithms.
 
-Greedy-Epsilon
+The Bar graph displaying how many times which machine was selected is as shown below
 
-![Greedy-Epsilon](https://github.com/gurjaspalbedi/reinforcement-learning/blob/master/Optimistic-Greedy/line_graph.jpg?raw=true)
+![Selection of Machines](https://github.com/gurjaspalbedi/reinforcement-learning/blob/master/Optimistic-Greedy/bar_graph.jpg?raw=true)
 
-Optimistic-Greedy
+If we give the mean rewards as 1, 10, 20, 30 and plot a graph of iteration vs reward we get the following plot.
 
-![Optimistic-Greedy](https://github.com/gurjaspalbedi/reinforcement-learning/blob/master/Optimistic-Greedy/line_graph.jpg?raw=true)
+![Iterations](https://github.com/gurjaspalbedi/reinforcement-learning/blob/master/Optimistic-Greedy/line_graph.jpg?raw=true)
 
 The graph for the cumulative average of awards vs number of iterations
 

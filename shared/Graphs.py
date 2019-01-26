@@ -8,7 +8,19 @@ import matplotlib.pyplot as plt
 class Graphs:
 
         
-    def draw_cumulated_average_graph(self, cum_average: List, iterations: int, path: str):
+    def draw_cumulative_average_graph(self, cum_average: List, iterations: int, path: str):
+        """Gives the cumulative average graph
+        
+        Parameters
+        ----------
+        cum_average : List
+            The list with cumulative averages per iteration
+        iterations : int
+            Total number of iterations
+        path : str
+            Path where the graph should be saved relative to the root directory
+        
+        """
         plt.figure(2)
         plt.plot(np.arange(iterations) + 1, cum_average)
         plt.xlabel('Cumulative Average')
@@ -42,8 +54,8 @@ class Graphs:
         None
         """
         plt.figure(3)
-        plt.xlabel("Number of Time Machine was selected")
-        plt.ylabel("Machine Name")
+        plt.ylabel("Number of Time Machine was selected")
+        plt.xlabel("Machine Name")
         plt.bar(x_labels, machine_counts)
         plt.savefig("{0}/bar_graph.jpg".format(path))
         plt.show()
