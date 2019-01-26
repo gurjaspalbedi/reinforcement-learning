@@ -12,6 +12,7 @@ Following algortihms were implemented and details of each algorithm is in the RE
 ![Cumulative Average](https://github.com/gurjaspalbedi/reinforcement-learning/blob/master/Greedy-Epsilon/cumulative_average.jpg?raw=true)
 
 2. **Optimistic-Greedy**
+
 ![Selection of Machines](https://github.com/gurjaspalbedi/reinforcement-learning/blob/master/Optimistic-Greedy/bar_graph.jpg?raw=true)
 
 ![Iterations](https://github.com/gurjaspalbedi/reinforcement-learning/blob/master/Optimistic-Greedy/line_graph.jpg?raw=true)
