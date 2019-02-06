@@ -12,6 +12,7 @@ class Environment:
         self.losing_reward = 0
         self.average_reward = 0.5
         self.numerical_board = np.zeros(tic_tac_board.board_size * tic_tac_board.board_size, dtype=int)
+        self.states = []
 
     def get_reshaped_board(self):
         return self.numerical_board.reshape( self.tic_tac_board.board_size, self.tic_tac_board.board_size)
@@ -61,26 +62,26 @@ class Environment:
     def get_draw_status(self):
         return self.board_is_full()
     
-    def get_state_value(self, state):
-        pass
-    
-    # def get_all_moves(self, agent: int):
-    #     if agent == 1:
-    #         return self.agent1.moves
-    #     return self.agent2.moves
-
     def update_value_function_for_agent(self, agent: Agent, reward):
-        agent.moves.reverse()
-        states = agent.moves
-        value_board = agent.values_board
-        target_reward = reward
-        for state in enumerate(states):
-            i = self.agent1.get_state_identifier(state[1])
-            if i in value_board:
-                agent.values_board[i] = value_board[i] + agent.learning_rate * (target_reward - value_board[i])
+
+        target = reward
+        for state in reversed(agent.moves):
+            prev = self.agent1.get_state_identifier(state)
+            # if agent.agent_id == 1:
+            #     print("agent 1 move")
+            #     print(prev)
+            if prev in agent.values_board:
+                value = agent.values_board[prev] + agent.learning_rate*(target - agent.values_board[prev])
             else:
-                agent.values_board[i] = self.average_reward + agent.learning_rate * (target_reward - self.average_reward)
-            target_reward = value_board[i]
+                value = self.average_reward + agent.learning_rate * (target - self.average_reward)
+            agent.values_board[prev] = value
+            target = value
+        # if agent.agent_id == 1:
+        #     print("for agent 1")
+        #     print(len(agent.values_board))
+        # if agent.agent_id == 2:
+        #     print("for agent 2")
+        #     print(len(agent.values_board))
     
     def update_value_function(self, winner):
         reward1 = self.winner_reward if winner == 1 else self.losing_reward
@@ -95,42 +96,42 @@ class Environment:
     def clear_board(self):
         self.numerical_board = np.zeros(self.tic_tac_board.board_size * self.tic_tac_board.board_size, dtype=int)
 
+    def append_moves_for_agent(self):
+        self.agent1.moves.append(np.copy(self.numerical_board))
+        self.agent2.moves.append(np.copy(self.numerical_board))
+
     def run(self, iterations):
         for iteration in range(iterations):
-            # if iteration > 10000 or debug == 1:
-            #     print("The current iteration is ", iteration)
-            print("The current iteration is ", iteration)
             prev_played = 1
             winner = -1
             draw = False
-            while(winner == -1 and draw == False):
+            while(winner == -1 and not draw):
+
                 if prev_played == 1:
                     prev_played =2
-                    # if iteration > 10000:
-                    print("Agent playing ", 2)
                     self.numerical_board = self.agent2.make_move(self.numerical_board, iteration)
-                    if iteration > 10000:
-                        self.tic_tac_board.print_board(self.numerical_board)
                 else:
                     prev_played = 1
-                    # if iteration > 10000:
-                    print("Agent playing ", 1)
                     self.numerical_board = self.agent1.make_move(self.numerical_board, iteration)
-                    # if iteration > 10000:
+
+                if iteration > 10000:
                     self.tic_tac_board.print_board(self.numerical_board)
-                # self.agent1.moves.append(np.copy(self.numerical_board))
-                # self.agent2.moves.append(np.copy(self.numerical_board))
+                self.append_moves_for_agent()
                 winner = self.get_winner()
                 if (winner == -1):
                     draw = self.get_draw_status()
+            # print("winner", iteration)
             self.update_value_function(winner)
             self.clear_board()
             self.clear_agent_moves()
-            # if iteration > 10000:
+            self.print_winner(iteration, winner, draw)
+            
+        print("All iterations complete")
+
+    def print_winner(self, iteration, winner, draw):
+        if iteration > 10000:
             if (winner != -1):
                 print("Winner is " + str(winner))
             if (draw):
                 print("Draw")
-            
-        print("All iterations complete")
         
