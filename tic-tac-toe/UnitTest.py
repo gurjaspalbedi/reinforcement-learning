@@ -49,22 +49,3 @@ print(env.agent1.get_state_identifier(numerical_board))
 
 numerical_board = np.array([2, 1, 1, 0, 1, 2, 2, 0, 0])
 print(env.agent1.get_state_identifier(numerical_board))
-
-
-# moves = [
-#     [2,0,0,0,0,0,0,0,0],
-#     [2,1,0,0,0,0,0,0,0],
-#     [2,1,2,0,0,0,0,0,0],
-#     [2,1,2,1,0,0,0,0,0],
-#     [2,1,2,1,2,0,0,0,0],
-#     [2,1,2,1,2,1,0,0,0],
-#     [2,1,2,1,2,1,2,0,0],
-# ]
-# agent1.moves = moves
-# agent2.moves = moves
-# env.update_value_function(2)
-# print(env.agent1.values_board)
-# print(env.agent2.values_board)
-# print(agent1.moves)
-# print(agent2.moves)
-
