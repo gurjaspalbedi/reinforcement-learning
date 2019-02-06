@@ -12,4 +12,8 @@ You can run the progam by running the Main.py file.
 
 Below is the screen shot of the initial value function. We can see that on the first move agent is most confident to place the stone in the middle of the board. Confidence value of that position is **0.903**
 
+**1** Denotes the move by Agent1
+**2** Denotes the move by Agent2
+**0** Denotes the empty place
+
 ![Value Function](https://github.com/gurjaspalbedi/reinforcement-learning/blob/master/tic-tac-toe/initial_confidence.JPG?raw=true)
