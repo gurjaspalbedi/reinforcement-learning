@@ -10,3 +10,6 @@ This reinforcement learning algortihm is explained below:
    
 You can run the progam by running the Main.py file.
 
+Below is the screen shot of the initial value function. We can see that on the first move agent is most confident to place the stone in the middle of the board. Confidence value of that position is **0.903**
+
+![Value Function](https://github.com/gurjaspalbedi/reinforcement-learning/blob/master/tic-tac-tow/initial_condidence.jpg?raw=true)
