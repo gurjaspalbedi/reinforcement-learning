@@ -14,6 +14,7 @@ concreate_grid.set_block_positions([5])
 concreate_grid.show_grid_positions()
 d = DynamicProgramming(concreate_grid)
 d.iterative_policy_evaluation()
+d.iterative_policy_evaluation_deterministic()
 
 
 

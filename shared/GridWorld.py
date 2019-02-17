@@ -42,14 +42,17 @@ class ConcreateGrid:
             for col in range(self.cols):
                 state_number = self.get_state_number(row,col)
                 if self.is_positive_goal_position(state_number):
-                    print("G", end=" ")
+                    print("|G|", end=" ")
                 elif self.is_negative_goal_position(state_number):
-                    print("N", end=" ")
+                    print("|N|", end=" ")
                 elif self.is_start_position(state_number):
-                    print("S", end=" ")
+                    print("|S|", end=" ")
+                elif state_number in self.block_positions:
+                    print("|X|", end=" ")
                 else:
-                    print("O", end=" ")
+                    print("|O|", end=" ")
             print("")
+        print("\n")
     
     def print_values(self, values: List[List[int]]) -> None:
         grid = values.reshape(self.rows,self.cols)
@@ -57,8 +60,21 @@ class ConcreateGrid:
         rows = shape[0]
         cols = shape[1]
         for row in range(rows):
+            print("----------------------------------------------")
             for col in range(cols):
-                print(" %.3f" % grid[row][col], end=" ")
+                print("| %.3f|" % grid[row][col], end=" ")
             print("")
+        print("\n")
 
+    def print_policy(self, policy: List[List[str]]) -> None:
+        grid = np.array(list(policy.values())).reshape(self.rows,self.cols)
+        shape = grid.shape
+        rows = shape[0]
+        cols = shape[1]
+        for row in range(rows):
+            print("----------------------------------------------")
+            for col in range(cols):
+                print(" ", grid[row][col][0], end=" |") if len(grid[row][col]) > 0 else print("   ", end=" |")
+            print("")
+        print("\n")
 

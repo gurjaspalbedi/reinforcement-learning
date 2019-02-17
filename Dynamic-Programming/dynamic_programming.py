@@ -12,7 +12,7 @@ class DynamicProgramming:
         self.value_function = np.zeros((self.rows,self.cols))
         self.goal_reward = 1
         self.negative_goal_reward = -1
-        self.step_reward = -0.1
+        self.step_reward = 0
         self.rewards= np.full((self.rows * self.cols), self.step_reward)
         self.SMALL_CHANGE = 1e-3
         self.gamma = 1
@@ -99,7 +99,6 @@ class DynamicProgramming:
         return self.value_function[self.get_next_state_number(state_number,action)]
 
     def get_terminal_states(self) -> List[int]:
-        print(self.concrete_grid.positive_goal)
         return [self.concrete_grid.positive_goal, self.concrete_grid.negative_goal]
 
     def iterative_policy_evaluation(self):
@@ -107,32 +106,64 @@ class DynamicProgramming:
         # For Random policy all states are equally likely so the probability would be
         # 1/ (No. of states in that policy)
 
-        # X = np.linspace(0,2,1000)
-        # Y = X**2 + np.random.random(X.shape)
+        states = list(range(self.rows * self.cols))
 
-        # plt.ion()
-        # graph = plt.plot(X,Y)[0]
+        self.value_function = np.zeros((self.rows * self.cols))
+        while True:
+            # we iterate through all the states, for each state select action and sum there values.
+            # this summation of values for each action multiplied by probability is known as expectation of that state
+            # This expectation is then assigned to that particular state.
+            # This process is continued untile we find very small change between two iterations for particular state.
+            max_expected_value_change = 0
+            for state in states:
+                old_value_function = self.value_function[state]
+                actions = self.grid_world_actions[state]
+                expected_value_sum = 0
+                for action in actions:
+                    expected_value_sum = expected_value_sum + (1/len(actions) * (self.get_action_reward(state,action) + (self.gamma * self.get_value_next_state(state,action))))
+                self.value_function[state] = expected_value_sum
+                max_expected_value_change = max(max_expected_value_change, np.abs(expected_value_sum - old_value_function))
+            if max_expected_value_change <= self.SMALL_CHANGE:
+                break
 
+        self.concrete_grid.print_values(self.value_function)
+
+    def set_deterministic_policy(self):
+        #Policy : 
+        # if we start from Start state we reach goal else we reach negative goal
+        self.grid_world_actions[0] = ['R']
+        self.grid_world_actions[1] = ['R']
+        self.grid_world_actions[2] = ['R']
+        self.grid_world_actions[3] = []
+        self.grid_world_actions[4] = ['U']
+        self.grid_world_actions[5] = []
+        self.grid_world_actions[6] = ['R']
+        self.grid_world_actions[8] = ['U']
+        self.grid_world_actions[9] = ['R']
+        self.grid_world_actions[10] = ['R']
+        self.grid_world_actions[11] = ['U']
+
+
+    def iterative_policy_evaluation_deterministic(self):
+        self.gamma = 0.9
+        self.set_deterministic_policy()
+        self.concrete_grid.print_policy(self.grid_world_actions)
+        # Policy evaluation for deterministic policy
+        # Probability for any action will be 1 as there is only one action
         states = list(range(self.rows * self.cols))
 
         self.value_function = np.zeros((self.rows * self.cols))
         while True:
             max_expected_value_change = 0
             for state in states:
-                # print("taking state",state)
                 old_value_function = self.value_function[state]
                 actions = self.grid_world_actions[state]
-                print(len(actions))
-                max_expected_value_change = 0
-                expected_value_sum = 0
                 for action in actions:
-                    expected_value_sum = expected_value_sum + (1/len(actions) * (self.get_action_reward(state,action) + (self.gamma * self.get_value_next_state(state,action))))
-                self.value_function[state] = expected_value_sum
-                max_expected_value_change = max(max_expected_value_change, np.abs(expected_value_sum - old_value_function))
-                # print("max expected value change", max_expected_value_change)
-                # graph.set_ydata(max_expected_value_change)
-                # plt.draw()
-            if max_expected_value_change <= self.SMALL_CHANGE:
+                    # Not taking sum because there will be only one action
+                    # multiplying by 1 because there will be only one action and probability of that action will be 1
+                    self.value_function[state] =  (1 * (self.get_action_reward(state,action)) + (self.gamma * self.get_value_next_state(state,action)))
+                max_expected_value_change = max(max_expected_value_change, np.abs(self.value_function[state] - old_value_function))
+            if max_expected_value_change < self.SMALL_CHANGE:
                 break
 
         self.concrete_grid.print_values(self.value_function)
