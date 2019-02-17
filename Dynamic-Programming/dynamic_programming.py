@@ -18,7 +18,16 @@ class DynamicProgramming:
         self.gamma = 1
         self.set_actions()
     
-    def get_nearby_states(self, position):
+    def get_nearby_states(self, position: int):
+        """To get the nearby state of any given state.
+        This function is used to determine the moves adjacent to block position
+        
+        Parameters
+        ----------
+        position : int
+            State number in the grid, 0 for (0,0) and 11 for (2,3)
+        
+        """
         left_state = position - 1 if position - 1 >=0 else None
         right_state = position + 1 if position + 1 < (self.rows * self.cols) else None
         up = position - self.cols if position - self.rows >=0 else None
@@ -27,6 +36,9 @@ class DynamicProgramming:
         return [{left_state : 'R'},{right_state: 'L'}, {up:'D'}, {down:'U'}]
 
     def set_actions_misc(self):
+        """Function to set the actions for terminal states and blocked positions
+        
+        """
         states = self.get_terminal_states()
         for state in states:
             self.grid_world_actions[state] = []
@@ -41,6 +53,12 @@ class DynamicProgramming:
                     
 
     def set_actions(self) -> None:
+        """Initialize actions for all the states
+        
+        Returns
+        -------
+        None
+        """
         rows, cols = self.grid_world.shape
         self.grid_world_actions = {}
         for row in range(self.rows):
@@ -60,13 +78,27 @@ class DynamicProgramming:
         self.set_actions_misc()
 
     def print_actions(self) -> None:
+        """To display the actions taken from each state, this is useful for the deterministic policy
+        
+        Returns
+        -------
+        None
+        """
         actions = np.reshape(self.grid_world_actions, (self.rows,self.cols))
         for row in range(self.rows):
             for col in range(self.cols):
                 print(actions[row][col], end=" ")
             print("")
 
-    def get_reward(self, state_number):
+    def get_reward(self, state_number: int):
+        """Returns the reward associated witht the particular state
+        
+        Parameters
+        ----------
+        state_number : int
+            State number for the particular state
+        
+        """
         if self.concrete_grid.is_positive_goal_position(state_number):
             return self.goal_reward
         
@@ -75,11 +107,37 @@ class DynamicProgramming:
         else:
             return self.step_reward
 
-    def get_position(self,state_number) -> Tuple[int,int]:
+    def get_position(self,state_number: int) -> Tuple[int,int]:
+        """Returns the position Tuple for the state number
+        
+        Parameters
+        ----------
+        state_number : int
+            State number of the state for which we want position Tuple 
+        
+        Returns
+        -------
+        Tuple[int,int]
+            Position Tuple of the state
+        """
         return (state_number // self.cols , state_number % self.cols)
 
 
     def get_next_state_number(self, current_state_number: int, action: str ) -> int:
+        """Given the state and action, returns the state number for the next state in which agent would be
+        
+        Parameters
+        ----------
+        current_state_number : int
+            State number of the state in which the agent is currenly in
+        action : str
+            Action which the agent takes
+        
+        Returns
+        -------
+        int
+            State number in which the agent would be after taking particular action
+        """
         row, col = self.get_position(current_state_number)
         if action == 'R':
             col = col + 1
@@ -92,13 +150,48 @@ class DynamicProgramming:
         return self.concrete_grid.get_state_number(row, col)
 
     def get_action_reward(self, current_state_number: int, action: str) -> float:
+        """Returns the reward for particular action in the given state
+        
+        Parameters
+        ----------
+        current_state_number : int
+            State number of the current state in which agen is in
+        action : str
+            Action the agent takes from the current state
+        
+        Returns
+        -------
+        float
+            Reward agent gets after taking give action from the current state
+        """
         next_state_number  = self.get_next_state_number(current_state_number, action)
         return self.get_reward(next_state_number)
     
-    def get_value_next_state(self, state_number: int, action: str):
+    def get_value_next_state(self, state_number: int, action: str) -> float: 
+        """Gets the value function value for the given state
+        
+        Parameters
+        ----------
+        state_number : int
+            State number of the agent
+        action : str
+            Action that agent takes
+        
+        Returns
+        -------
+        float
+            The value of the state, which is the next state in this scenario
+        """
         return self.value_function[self.get_next_state_number(state_number,action)]
 
     def get_terminal_states(self) -> List[int]:
+        """Returns the list containing the state number of terminal states
+        
+        Returns
+        -------
+        List[int]
+            The list containing the state number of the terminal states
+        """
         return [self.concrete_grid.positive_goal, self.concrete_grid.negative_goal]
 
     def iterative_policy_evaluation(self):
@@ -154,6 +247,7 @@ class DynamicProgramming:
 
         self.value_function = np.zeros((self.rows * self.cols))
         while True:
+            # holds the maximum change 
             max_expected_value_change = 0
             for state in states:
                 old_value_function = self.value_function[state]
