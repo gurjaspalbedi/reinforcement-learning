@@ -11,6 +11,7 @@ class ConcreateGrid:
         self.positive_goal: int = None
         self.negative_goal: int = None
         self.start_position: int = None
+        self.block_positions: List[int] = []
 
     def set_goal_position(self, state_number: int) -> None:
         self.positive_goal = state_number
@@ -20,6 +21,9 @@ class ConcreateGrid:
 
     def set_start_position(self, state_number: int) -> None:
         self.start_position = state_number
+    
+    def set_block_positions(self, state_number_list: List[int]) -> None:
+        self.block_positions = state_number_list
     
     def get_state_number(self, row,col):
         return ((row * self.cols) + (col))

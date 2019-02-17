@@ -1,3 +1,8 @@
 *.pyc
 Dynamic-Programming/lz.py
 Dynamic-Programming/grid_world.py
+.vscode/.ropeproject/config.py
+.vscode/.ropeproject/objectdb
+.vscode/settings.json
+upper-confidence-bound/.vscode/settings.json
+tic.py

@@ -18,10 +18,27 @@ class DynamicProgramming:
         self.gamma = 1
         self.set_actions()
     
-    def set_actions_terminal_states(self):
+    def get_nearby_states(self, position):
+        left_state = position - 1 if position - 1 >=0 else None
+        right_state = position + 1 if position + 1 < (self.rows * self.cols) else None
+        up = position - self.cols if position - self.rows >=0 else None
+        down = position + self.cols if position + self.rows < (self.rows * self.cols) else None
+
+        return [{left_state : 'R'},{right_state: 'L'}, {up:'D'}, {down:'U'}]
+
+    def set_actions_misc(self):
         states = self.get_terminal_states()
         for state in states:
             self.grid_world_actions[state] = []
+        
+        blocking_states = self.concrete_grid.block_positions
+        for position in blocking_states:
+            self.grid_world_actions[position] = []
+            nearby_states = self.get_nearby_states(position)
+            for nearby_state in nearby_states:
+                if list(nearby_state.keys())[0] in self.grid_world_actions:
+                    self.grid_world_actions[list(nearby_state.keys())[0]].remove(list(nearby_state.values())[0])
+                    
 
     def set_actions(self) -> None:
         rows, cols = self.grid_world.shape
@@ -40,7 +57,7 @@ class DynamicProgramming:
                 state = self.concrete_grid.get_state_number(row,col)
                 self.grid_world_actions[state]= actions
 
-        self.set_actions_terminal_states()
+        self.set_actions_misc()
 
     def print_actions(self) -> None:
         actions = np.reshape(self.grid_world_actions, (self.rows,self.cols))
