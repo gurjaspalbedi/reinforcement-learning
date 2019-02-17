@@ -9,22 +9,21 @@ from dynamic_programming import DynamicProgramming
 
 
 concreate_grid = ConcreateGrid(3,4)
-concreate_grid.set_goal_position((0,3))
-concreate_grid.set_negative_goal_position((1,3))
-concreate_grid.set_start_position((1,1))
+concreate_grid.set_goal_position(3)
+concreate_grid.set_negative_goal_position(7)
+concreate_grid.set_start_position(8)
 concreate_grid.show_grid_positions()
 
 # testing if we get the correct state number based on position
+test.assertEqual(concreate_grid.get_state_number(0,0), 0)
+test.assertEqual(concreate_grid.get_state_number(0,1), 1)
+test.assertEqual(concreate_grid.get_state_number(0,2), 2)
+test.assertEqual(concreate_grid.get_state_number(0,3), 3)
+test.assertEqual(concreate_grid.get_state_number(1,1), 5)
+test.assertEqual(concreate_grid.get_state_number(1,2), 6)
+test.assertEqual(concreate_grid.get_state_number(2,3), 11)
+
 d = DynamicProgramming(concreate_grid)
-test.assertEqual(d.get_state_number(0,0), 0)
-test.assertEqual(d.get_state_number(0,1), 1)
-test.assertEqual(d.get_state_number(0,2), 2)
-test.assertEqual(d.get_state_number(0,3), 3)
-test.assertEqual(d.get_state_number(1,1), 5)
-test.assertEqual(d.get_state_number(1,2), 6)
-test.assertEqual(d.get_state_number(2,3), 11)
-
-
 d.set_actions()
 actions  = d.grid_world_actions
 test.assertEqual(actions[0], ['D', 'R'])
@@ -56,13 +55,13 @@ row, col = d.get_position(11)
 test.assertEqual(row, 2)
 test.assertEqual(col, 3)
 
-reward = d.get_reward(0,0)
+reward = d.get_reward(0)
 test.assertEqual(reward, -0.1)
 
-reward = d.get_reward(0,3)
+reward = d.get_reward(3)
 test.assertEqual(reward, 1)
 
-reward = d.get_reward(1,3)
+reward = d.get_reward(7)
 test.assertEqual(reward, -1)
 
 reward = d.get_action_reward(0, 'R')

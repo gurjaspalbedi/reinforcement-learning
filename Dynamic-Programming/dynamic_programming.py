@@ -17,10 +17,6 @@ class DynamicProgramming:
         self.SMALL_CHANGE = 1e-3
         self.gamma = 1
         self.set_actions()
-
-
-    def get_state_number(self, row,col):
-        return ((row * self.cols) + (col))
     
     def set_actions_terminal_states(self):
         states = self.get_terminal_states()
@@ -41,7 +37,7 @@ class DynamicProgramming:
                     actions.append('L')
                 if col < cols - 1:
                     actions.append('R')
-                state = self.get_state_number(row,col)
+                state = self.concrete_grid.get_state_number(row,col)
                 self.grid_world_actions[state]= actions
 
         self.set_actions_terminal_states()
@@ -53,13 +49,12 @@ class DynamicProgramming:
                 print(actions[row][col], end=" ")
             print("")
 
-    def get_reward(self, row, col):
-        if self.concrete_grid.is_positive_goal_position(row,col):
+    def get_reward(self, state_number):
+        if self.concrete_grid.is_positive_goal_position(state_number):
             return self.goal_reward
         
-        if self.concrete_grid.is_negative_goal_position(row,col):
+        if self.concrete_grid.is_negative_goal_position(state_number):
             return self.negative_goal_reward
-        
         else:
             return self.step_reward
 
@@ -77,20 +72,18 @@ class DynamicProgramming:
             row = row - 1
         if action == 'D':
             row = row + 1
-        return self.get_state_number(row, col)
+        return self.concrete_grid.get_state_number(row, col)
 
     def get_action_reward(self, current_state_number: int, action: str) -> float:
         next_state_number  = self.get_next_state_number(current_state_number, action)
-        row, col = self.get_position(next_state_number)
-        return self.get_reward(row,col)
+        return self.get_reward(next_state_number)
     
     def get_value_next_state(self, state_number: int, action: str):
         return self.value_function[self.get_next_state_number(state_number,action)]
 
     def get_terminal_states(self) -> List[int]:
-        positive_state_number = self.get_state_number(self.concrete_grid.postive_goal[0], self.concrete_grid.postive_goal[1])
-        negative_state_number = self.get_state_number(self.concrete_grid.negative_goal[0], self.concrete_grid.negative_goal[1])
-        return [positive_state_number, negative_state_number]
+        print(self.concrete_grid.positive_goal)
+        return [self.concrete_grid.positive_goal, self.concrete_grid.negative_goal]
 
     def iterative_policy_evaluation(self):
         # First we do the policy evaluation for random policy.
@@ -112,6 +105,7 @@ class DynamicProgramming:
                 # print("taking state",state)
                 old_value_function = self.value_function[state]
                 actions = self.grid_world_actions[state]
+                print(len(actions))
                 max_expected_value_change = 0
                 expected_value_sum = 0
                 for action in actions:
@@ -123,6 +117,7 @@ class DynamicProgramming:
                 # plt.draw()
             if max_expected_value_change <= self.SMALL_CHANGE:
                 break
+
         self.concrete_grid.print_values(self.value_function)
 
         

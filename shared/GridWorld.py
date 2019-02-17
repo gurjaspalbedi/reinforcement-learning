@@ -1,6 +1,5 @@
 from typing import List, Type, Tuple
 import numpy as np
-Point = Tuple[int,int]
 Grid = List[List[int]]
 
 class ConcreateGrid:
@@ -9,36 +8,40 @@ class ConcreateGrid:
         self.grid = np.zeros((rows,cols))
         self.rows: int = rows
         self.cols: int = cols
-        self.postive_goal: Point = None
-        self.negative_goal: Point = None
-        self.start_position: Point = None
+        self.positive_goal: int = None
+        self.negative_goal: int = None
+        self.start_position: int = None
 
-    def set_goal_position(self, pos: Point) -> None:
-        self.postive_goal = pos
+    def set_goal_position(self, state_number: int) -> None:
+        self.positive_goal = state_number
 
-    def set_negative_goal_position(self, pos: Point) -> None:
-        self.negative_goal = pos
+    def set_negative_goal_position(self, state_number: int) -> None:
+        self.negative_goal = state_number
 
-    def set_start_position(self, pos: Point) -> None:
-        self.start_position = pos
+    def set_start_position(self, state_number: int) -> None:
+        self.start_position = state_number
     
-    def is_positive_goal_position(self, row: int, col: int) -> bool:
-        return row == self.postive_goal[0] and col == self.postive_goal[1]
+    def get_state_number(self, row,col):
+        return ((row * self.cols) + (col))
+
+    def is_positive_goal_position(self, state_number: int) -> bool:
+        return self.positive_goal == state_number
     
-    def is_negative_goal_position(self, row: int, col: int) -> bool:
-        return row == self.negative_goal[0] and col == self.negative_goal[1]
+    def is_negative_goal_position(self, state_number: int) -> bool:
+        return self.negative_goal == state_number
     
-    def is_start_position(self, row: int, col: int) -> bool:
-        return row == self.start_position[0] and col == self.start_position[1]
+    def is_start_position(self, state_number: int) -> bool:
+        return self.start_position == state_number
 
     def show_grid_positions(self) -> None:
         for row in range(self.rows):
             for col in range(self.cols):
-                if self.is_positive_goal_position(row, col):
+                state_number = self.get_state_number(row,col)
+                if self.is_positive_goal_position(state_number):
                     print("G", end=" ")
-                elif self.is_negative_goal_position(row, col):
+                elif self.is_negative_goal_position(state_number):
                     print("N", end=" ")
-                elif self.is_start_position(row,col):
+                elif self.is_start_position(state_number):
                     print("S", end=" ")
                 else:
                     print("O", end=" ")
