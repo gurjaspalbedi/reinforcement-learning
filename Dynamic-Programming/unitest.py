@@ -11,7 +11,7 @@ from shared.actions import Actions
 from shared.config import Config
 from shared.statesandblockers import StatesAndBlocks
 
-from dynamic_programming import DynamicProgramming
+from policyevaluation import PolicyEvaluation
 
 config  = Config()
 policy = Policy()
@@ -30,7 +30,9 @@ test.assertEqual(grid.get_state_number(1,2), 6)
 test.assertEqual(grid.get_state_number(2,3), 11)
 
 actions = Actions(states_and_blocks, rewards, grid)
-d = DynamicProgramming(grid, policy, actions)
+
+
+d = PolicyEvaluation(grid, policy, actions)
 d.actions.set_actions()
 actions  = d.actions.grid_actions
 test.assertEqual(actions[0], ['D', 'R'])

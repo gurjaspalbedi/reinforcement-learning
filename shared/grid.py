@@ -117,7 +117,10 @@ class Grid:
         -------
         None
         """
-        grid = np.array(list(policy.values())).reshape(self.rows,self.cols)
+        if type(policy) is dict:
+            grid = np.array(list(policy.values())).reshape(self.rows,self.cols)
+        else:
+            grid = policy.reshape(self.rows,self.cols)
         shape = grid.shape
         rows = shape[0]
         cols = shape[1]

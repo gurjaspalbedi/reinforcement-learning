@@ -3,34 +3,17 @@ from typing import List, Tuple
 import torch
 import pylab as plt
 
-class DynamicProgramming:
+class PolicyEvaluation:
 
-    def __init__(self, grid, policy, actions) -> None:
+    def __init__(self, grid, policy, actions, small_change, gamma) -> None:
         self.grid = grid
         self.policy = policy
         self.actions = actions
         self.rows, self.cols = self.grid.grid_board.shape
         self.value_function = np.zeros((self.rows,self.cols))
-        self.SMALL_CHANGE = 1e-3
-        self.gamma = 1
+        self.SMALL_CHANGE = small_change
+        self.gamma = gamma
         self.actions.set_actions()
-    
-    def get_value_next_state(self, state_number: int, action: str) -> float: 
-        """Gets the value function value for the given state
-        
-        Parameters
-        ----------
-        state_number : int
-            State number of the agent
-        action : str
-            Action that agent takes
-        
-        Returns
-        -------
-        float
-            The value of the state, which is the next state in this scenario
-        """
-        return self.value_function[self.actions.get_next_state_number(state_number,action)]
 
     def iterative_policy_evaluation(self):
         # First we do the policy evaluation for random policy.
@@ -51,7 +34,7 @@ class DynamicProgramming:
                 actions = self.actions.grid_actions[state]
                 expected_value_sum = 0
                 for action in actions:
-                    expected_value_sum = expected_value_sum + (1/len(actions) * (self.actions.get_action_reward(state,action) + (self.gamma * self.get_value_next_state(state,action))))
+                    expected_value_sum = expected_value_sum + (1/len(actions) * (self.actions.get_action_reward(state,action) + (self.gamma * self.value_function[self.actions.get_next_state_number(state,action)])))
                 self.value_function[state] = expected_value_sum
                 max_expected_value_change = max(max_expected_value_change, np.abs(expected_value_sum - old_value_function))
             if max_expected_value_change <= self.SMALL_CHANGE:
@@ -83,7 +66,7 @@ class DynamicProgramming:
                 for action in actions:
                     # Not taking sum because there will be only one action
                     # multiplying by 1 because there will be only one action and probability of that action will be 1
-                    self.value_function[state] =  (1 * (self.actions.get_action_reward(state,action)) + (self.gamma * self.get_value_next_state(state,action)))
+                    self.value_function[state] =  (1 * (self.actions.get_action_reward(state,action)) + (self.gamma * self.value_function[self.actions.get_next_state_number(state,action)]))
                 max_expected_value_change = max(max_expected_value_change, np.abs(self.value_function[state] - old_value_function))
             if max_expected_value_change < self.SMALL_CHANGE:
                 break

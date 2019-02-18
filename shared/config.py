@@ -8,7 +8,10 @@ class Config:
 
         self.number_of_columns  = 4
         self.numer_of_rows  = 3 
-        
+
         self.positive_reward = 1
         self.negative_reward = -1
-        self.step_reward = 0
+        self.step_reward = -0.1
+
+        self.gamma = 0.9
+        self.small_change = 1e-3
