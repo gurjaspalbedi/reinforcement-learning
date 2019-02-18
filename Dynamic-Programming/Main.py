@@ -21,11 +21,16 @@ grid.show_grid_positions()
 
 actions = Actions(states_and_blocks, rewards, grid)
 
+# ========================= POLICY ITERATION BEGIN =======================================
 policy_iteration = PolicyIteration(grid, policy, actions, config.small_change, config.gamma)
 policy_iteration.run_policy_iteration()
+# ========================= POLICY ITERATION END =========================================
+
+# ========================= POLICY EVALUATION BEGIN (Uncomment the code to run policy evaluation) =======================================
 # d = PolicyEvaluation(grid, policy, actions, config.small_change, config.gamma)
 # d.iterative_policy_evaluation()
 # d.iterative_policy_evaluation_deterministic()
+# ========================= POLICY EVALUATION END =======================================
 
 
 

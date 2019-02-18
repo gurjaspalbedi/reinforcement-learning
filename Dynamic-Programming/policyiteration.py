@@ -12,6 +12,32 @@ class PolicyIteration:
         self.actions.set_actions()
         self.initial_policy = self.policy.get_random_policy(self.rows, self.cols)
     
+    def value_evaluation(self, states):
+        max_expected_value_change = 0
+        for state in states:
+            old_value_function = self.value_function[state]
+            action = self.initial_policy[state]
+            if action in self.actions.grid_actions[state]:
+                # Not taking sum because there will be only one action
+                # multiplying by 1 because there will be only one action and probability of that action will be 1
+                # That means if we try to go up, agent would end up going up, it is deterministic
+                self.value_function[state] =  (1 * (self.actions.get_action_reward(state,action)) + (self.gamma * self.value_function[self.actions.get_next_state_number(state,action)]))
+                max_expected_value_change = max(max_expected_value_change, np.abs(self.value_function[state] - old_value_function))
+        return max_expected_value_change
+    
+    def get_best_action(self,state, actions):
+        best_action_value = float('-inf')
+        best_action = None
+        for action in actions:
+            probability = 1
+            reward = self.actions.get_action_reward(state,action)
+            next_state_value = self.value_function[self.actions.get_next_state_number(state,action)]
+            value =  (probability * reward) + (self.gamma * next_state_value ) 
+            if value > best_action_value:
+                best_action_value = value
+                best_action = action
+        return best_action
+
     def run_policy_iteration(self):
 
         print("Random Policy")
@@ -30,16 +56,7 @@ class PolicyIteration:
             # we do this for all the states
             while True:
                 # holds the maximum change 
-                max_expected_value_change = 0
-                for state in states:
-                    old_value_function = self.value_function[state]
-                    action = self.initial_policy[state]
-                    if action in self.actions.grid_actions[state]:
-                        # Not taking sum because there will be only one action
-                        # multiplying by 1 because there will be only one action and probability of that action will be 1
-                        # That means if we try to go up, agent would end up going up, it is deterministic
-                        self.value_function[state] =  (1 * (self.actions.get_action_reward(state,action)) + (self.gamma * self.value_function[self.actions.get_next_state_number(state,action)]))
-                        max_expected_value_change = max(max_expected_value_change, np.abs(self.value_function[state] - old_value_function))
+                max_expected_value_change = self.value_evaluation(states)
                 if max_expected_value_change < self.SMALL_CHANGE:
                     break
 
@@ -48,18 +65,8 @@ class PolicyIteration:
             # If we find any action for state that has better value than the current action, we update our policy to that action
             for state in states:
                 old_policy = self.initial_policy.copy()
-                best_action_value = float('-inf')
                 actions  = self.actions.grid_actions[state]
-                best_action = None
-                for action in actions:
-                    probability = 1
-                    reward = self.actions.get_action_reward(state,action)
-                    next_state_value = self.value_function[self.actions.get_next_state_number(state,action)]
-                    value =  (probability * reward) + (self.gamma * next_state_value ) 
-                    if value > best_action_value:
-                        best_action_value = value
-                        best_action = action
-                self.initial_policy[state] = best_action 
+                self.initial_policy[state] = self.get_best_action(state, actions)
             # The number of time the policy remains same. It it is 10 we assume that it has converged
             if np.all(old_policy == self.initial_policy):
                 count += 1
