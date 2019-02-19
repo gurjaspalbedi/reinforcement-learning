@@ -11,9 +11,7 @@ We have 3 x 4 grid. The grid has the following
 
 Apart from these in some algorithms we have -0.1 of rewared for each step agents take. We make it negative so that the agent not only finds the path to GOAL but also the shortest path.
 
-|   |   |   |+G |
-|   |B  |   |-G |
-| S |   |   |   |
+![Policy Evaluation](https://github.com/gurjaspalbedi/reinforcement-learning/blob/master/Dynamic-Programming/grid.png?raw=true)
 
 1. [Policy Evaluation](https://github.com/gurjaspalbedi/reinforcement-learning/blob/master/Dynamic-Programming/policyevaluation.py): Given the policy, which can be deterministic or random we get the value function.
 
@@ -23,6 +21,4 @@ Apart from these in some algorithms we have -0.1 of rewared for each step agents
 
     So for both types of policies we find the value function. The code can be found [here](https://github.com/gurjaspalbedi/reinforcement-learning/blob/master/Dynamic-Programming/policyevaluation.py)
 
-    ![Cumulative Average](https://github.com/gurjaspalbedi/reinforcement-learning/blob/master/Dynamic-Programming/iterative_policy_evaluation.JPG?raw=true)
-
-
+    ![Policy Evaluation](https://github.com/gurjaspalbedi/reinforcement-learning/blob/master/Dynamic-Programming/iterative_policy_evaluation.JPG?raw=true)
