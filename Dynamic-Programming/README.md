@@ -23,6 +23,6 @@ Apart from these in some algorithms we have -0.1 of rewared for each step agents
 
     So for both types of policies we find the value function. The code can be found [here](https://github.com/gurjaspalbedi/reinforcement-learning/blob/master/Dynamic-Programming/policyevaluation.py)
 
-    ![Cumulative Average](https://github.com/gurjaspalbedi/reinforcement-learning/blob/master/Dynamic-Programming/iterative_policy_evaluation.jpg?raw=true)
+    ![Cumulative Average](https://github.com/gurjaspalbedi/reinforcement-learning/blob/master/Dynamic-Programming/iterative_policy_evaluation.JPG?raw=true)
 
 
