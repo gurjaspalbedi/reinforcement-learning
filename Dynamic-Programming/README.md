@@ -28,10 +28,15 @@ Apart from these in some algorithms we have -0.1 of rewared for each step agents
     In policy iteration first we take the action from existing policy(randomly initialized) for each state, then we evaluate that policy and assign the new value to the existing value of that state.
 
     In second step, for each state we get the best action according to the existing policy and update the existing policy. We keep on doing these steps until we find no change in the policies.
+    
+     ![Policy Iteration](https://github.com/gurjaspalbedi/reinforcement-learning/blob/master/Dynamic-Programming/policyiteration.JPG?raw=true)
+    
 
 3. [Value Iteration](https://github.com/gurjaspalbedi/reinforcement-learning/blob/master/Dynamic-Programming/valueiteration.py)
 
     In Value iteration we simply get the best action for each state and assign to the value of that state. In improvement phase we simply get the best action for each state and assign to the policy.
+    
+     ![Value Iteration](https://github.com/gurjaspalbedi/reinforcement-learning/blob/master/Dynamic-Programming/valueiteration.JPG?raw=true)
 
 **How to run?**
 
