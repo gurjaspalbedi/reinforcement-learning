@@ -17,8 +17,22 @@ Apart from these in some algorithms we have -0.1 of rewared for each step agents
 
     Random Policy: In case of random policy each state would be equally likely so we give all the state equal probability
 
-    Deterministic Policy: In deterministic policy if we want to go up, we will end up going up. That means the actions is as per our desire. In this case the probability will be 1.
+    Deterministic Policy: In deterministic policy if we want to go up, we will end up going up. That means the actions is as per our desire. In this case the probability will be 1. We define our deterministic policy as : If we start from START position we end in POSITIVE GOAL else in NEGATIVE GOAL STATE
 
     So for both types of policies we find the value function. The code can be found [here](https://github.com/gurjaspalbedi/reinforcement-learning/blob/master/Dynamic-Programming/policyevaluation.py)
 
     ![Policy Evaluation](https://github.com/gurjaspalbedi/reinforcement-learning/blob/master/Dynamic-Programming/iterative_policy_evaluation.JPG?raw=true)
+
+2. [Policy Iteration](https://github.com/gurjaspalbedi/reinforcement-learning/blob/master/Dynamic-Programming/policyiteration.py)
+
+    In policy iteration first we take the action from existing policy(randomly initialized) for each state, then we evaluate that policy and assign the new value to the existing value of that state.
+
+    In second step, for each state we get the best action according to the existing policy and update the existing policy. We keep on doing these steps until we find no change in the policies.
+
+3. [Value Iteration](https://github.com/gurjaspalbedi/reinforcement-learning/blob/master/Dynamic-Programming/valueiteration.py)
+
+    In Value iteration we simply get the best action for each state and assign to the value of that state. In improvement phase we simply get the best action for each state and assign to the policy.
+
+**How to run?**
+
+    You can run the code by running Main.py and uncommenting the algorithm you want to run.
