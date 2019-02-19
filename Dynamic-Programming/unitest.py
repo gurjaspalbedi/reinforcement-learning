@@ -32,7 +32,7 @@ test.assertEqual(grid.get_state_number(2,3), 11)
 actions = Actions(states_and_blocks, rewards, grid)
 
 
-d = PolicyEvaluation(grid, policy, actions)
+d = PolicyEvaluation(grid, policy, actions, config.small_change, config.gamma)
 d.actions.set_actions()
 actions  = d.actions.grid_actions
 test.assertEqual(actions[0], ['D', 'R'])
@@ -65,7 +65,7 @@ test.assertEqual(row, 2)
 test.assertEqual(col, 3)
 
 reward = rewards.get_reward(0)
-test.assertEqual(reward, 0)
+test.assertEqual(reward, config.step_reward)
 
 reward = rewards.get_reward(3)
 test.assertEqual(reward, 1)
@@ -74,7 +74,7 @@ reward = rewards.get_reward(7)
 test.assertEqual(reward, -1)
 
 reward = d.actions.get_action_reward(0, 'R')
-test.assertEqual(reward, 0)
+test.assertEqual(reward, config.step_reward)
 
 reward = d.actions.get_action_reward(3, 'D')
 test.assertEqual(reward, -1)
